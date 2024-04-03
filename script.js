@@ -12,12 +12,16 @@ async function fetchPokemonData(url) {
     alert("Ooops! Couldnt fetch pokemon.", error);
   }
 }
+let pokemonliked = [];
 const pokemonResponse = fetchPokemonData(API_URL);
 
 async function fetchPokemonDetails(pokemonResponse) {
   const pokemonList = await pokemonResponse;
+
   if (pokemonList.length < 0) return []; // Hvis liste er tom , returner fra metoden nedenfor.
   let fullPokemonDataFromApi = [];
+  pokemonliked.push(pokemonList);
+  console.log(pokemonliked);
 
   for (let index = 0; index < pokemonList.length; index++) {
     const pokemon = await pokemonList[index];
@@ -28,6 +32,7 @@ async function fetchPokemonDetails(pokemonResponse) {
     const pokemonContainer = document.querySelector(".pokemonContainer");
     // create container card
     const containerCard = document.createElement("div");
+
     containerCard.classList.add("pokemon");
     const nameElement = document.createElement("p");
 
@@ -51,6 +56,7 @@ async function fetchPokemonDetails(pokemonResponse) {
     containerCard.appendChild(editPokemon);
     containerCard.appendChild(deletePokemon);
     pokemonContainer.appendChild(containerCard);
+    pokemonliked.push(containerCard);
 
     fullPokemonDataFromApi = [...fullPokemonDataFromApi, detailedPokemonList];
   }
