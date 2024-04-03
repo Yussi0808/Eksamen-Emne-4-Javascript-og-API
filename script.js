@@ -35,11 +35,23 @@ async function fetchPokemonDetails(pokemonResponse) {
     const typeElement = document.createElement("p");
     typeElement.innerHTML = "Type: " + detailedPokemonList.types[0].type.name;
     const imageElement = document.createElement("img");
+    const likedPokemon = document.createElement("button");
+    const editPokemon = document.createElement("button");
+    const deletePokemon = document.createElement("button");
+
+    likedPokemon.textContent = "👍🏼";
+    editPokemon.textContent = "✍️";
+    deletePokemon.textContent = "❌";
+
     imageElement.src = detailedPokemonList.sprites.front_default;
     containerCard.appendChild(nameElement);
     containerCard.appendChild(typeElement);
     containerCard.appendChild(imageElement);
+    containerCard.appendChild(likedPokemon);
+    containerCard.appendChild(editPokemon);
+    containerCard.appendChild(deletePokemon);
     pokemonContainer.appendChild(containerCard);
+
     fullPokemonDataFromApi = [...fullPokemonDataFromApi, detailedPokemonList];
   }
 
@@ -78,4 +90,10 @@ function removeLocalStorage() {
   localStorage.removeItem("Pokemon key");
   document.querySelector("#output").innerHTML =
     "Pokemon er fjernet fra localStorage.";
+}
+
+function renderProfile() {
+  if (likedPokomon.length > 5) {
+    alert("Delete at least one Pokemonprofile from the list!");
+  }
 }
