@@ -47,3 +47,35 @@ async function fetchPokemonDetails(pokemonResponse) {
 }
 
 fetchPokemonDetails(pokemonResponse);
+
+// 1.4 Lagre Pokemon:
+
+// For å lagre: (krav at vi har key samt valuen som skal lagres)
+function storeLocalStorage() {
+  const pokemon = ["pokemon1", "pokemon2", "pokemon3"];
+  localStorage.setItem("Pokemon key", JSON.stringify(pokemon));
+  console.log(storeLocalStorage);
+
+  document.querySelector("#output").innerHTML =
+    "Pokemon er lagret i localStorage.";
+}
+
+// Hente data fra localStorage/SessionStorage
+function showLocalStorage() {
+  const storedPokemons = JSON.parse(localStorage.getItem("Pokemon key"));
+  if (!storedPokemons) {
+    document.getElementById("output").innerHTML =
+      "Ingen lagrede elementer i localStorage.";
+  } else {
+    document.querySelector(
+      "#output"
+    ).innerHTML = `Pokemon i localStorage: ${storedPokemons.join(", ")}`;
+  }
+}
+
+// Slette pokemon, basert på key
+function removeLocalStorage() {
+  localStorage.removeItem("Pokemon key");
+  document.querySelector("#output").innerHTML =
+    "Pokemon er fjernet fra localStorage.";
+}
