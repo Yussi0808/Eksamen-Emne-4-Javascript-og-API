@@ -40,21 +40,29 @@ async function fetchPokemonDetails(pokemonResponse) {
     const typeElement = document.createElement("p");
     typeElement.innerHTML = "Type: " + detailedPokemonList.types[0].type.name;
     const imageElement = document.createElement("img");
-    const likedPokemon = document.createElement("button");
-    const editPokemon = document.createElement("button");
-    const deletePokemon = document.createElement("button");
 
-    likedPokemon.textContent = "👍🏼";
-    editPokemon.textContent = "✍️";
-    deletePokemon.textContent = "❌";
+    //Slette
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "❌";
+    deleteBtn.addEventListener("click", function () {
+      fetchPokemonDetails(index);
+    });
+
+    //Edit
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "✍️";
+
+    //Liked
+    const likedBtn = document.createElement("button");
+    likedBtn.textContent = "👍🏼";
 
     imageElement.src = detailedPokemonList.sprites.front_default;
     containerCard.appendChild(nameElement);
     containerCard.appendChild(typeElement);
     containerCard.appendChild(imageElement);
-    containerCard.appendChild(likedPokemon);
-    containerCard.appendChild(editPokemon);
-    containerCard.appendChild(deletePokemon);
+    containerCard.appendChild(likedBtn);
+    containerCard.appendChild(editBtn);
+    containerCard.appendChild(deleteBtn);
     pokemonContainer.appendChild(containerCard);
     pokemonliked.push(containerCard);
 
