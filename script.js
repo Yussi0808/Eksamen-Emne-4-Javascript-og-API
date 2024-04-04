@@ -12,60 +12,10 @@ async function fetchPokemonData(url) {
     alert("Ooops! Couldnt fetch pokemon.", error);
   }
 }
-let pokemonliked = [];
-const pokemonResponse = fetchPokemonData(API_URL);
-
-async function fetchPokemonDetails(pokemonResponse) {
-  const pokemonList = await pokemonResponse;
-
-  if (pokemonList.length < 0) return []; // Hvis liste er tom , returner fra metoden nedenfor.
-  let fullPokemonDataFromApi = [];
-  pokemonliked.push(pokemonList);
-  console.log(pokemonliked);
-
-  for (let index = 0; index < pokemonList.length; index++) {
-    const pokemon = await pokemonList[index];
-    const fullPokemonDetails = await fetch(pokemon.url);
-
-    const detailedPokemonList = await fullPokemonDetails.json();
-
-    const pokemonContainer = document.querySelector(".pokemonContainer");
-    // create container card
-    const containerCard = document.createElement("div");
-
-    containerCard.classList.add("pokemon");
-    const nameElement = document.createElement("p");
-
-    nameElement.innerHTML = "Name: " + detailedPokemonList.name;
-    const typeElement = document.createElement("p");
-    typeElement.innerHTML = "Type: " + detailedPokemonList.types[0].type.name;
-    const imageElement = document.createElement("img");
-    const likedPokemon = document.createElement("button");
-    const editPokemon = document.createElement("button");
-    const deletePokemon = document.createElement("button");
-
-    likedPokemon.textContent = "👍🏼";
-    editPokemon.textContent = "✍️";
-    deletePokemon.textContent = "❌";
-
-    imageElement.src = detailedPokemonList.sprites.front_default;
-    containerCard.appendChild(nameElement);
-    containerCard.appendChild(typeElement);
-    containerCard.appendChild(imageElement);
-    containerCard.appendChild(likedPokemon);
-    containerCard.appendChild(editPokemon);
-    containerCard.appendChild(deletePokemon);
-    pokemonContainer.appendChild(containerCard);
-    pokemonliked.push(containerCard);
-
-    fullPokemonDataFromApi = [...fullPokemonDataFromApi, detailedPokemonList];
-  }
-
-  return fullPokemonDataFromApi;
-}
-
-fetchPokemonDetails(pokemonResponse);
-
+async function fetchAndDisplayPokemon() {
+  const pokemonData = await fetchPokemonData(API_URL);
+  const pokemonContainer = document.querySelector(".pokemonContainer");
+  
 // 1.4 Lagre Pokemon:
 
 // For å lagre: (krav at vi har key samt valuen som skal lagres)
