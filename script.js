@@ -66,6 +66,19 @@ async function fetchPokemonDetails(pokemonResponse) {
 
 fetchPokemonDetails(pokemonResponse);
 
+// 1.2 Filtrering og styling:
+
+//Filtrerings funksjon basert på type
+function filterPokemonByType(pokemonData, type) {
+  if (type === "all") {
+    return pokemonData;
+  } else {
+    return pokemonData.filter((pokemon) =>
+      pokemon.types.some((t) => t.type.name === type)
+    );
+  }
+}
+
 // 1.4 Lagre Pokemon:
 
 // For å lagre: (krav at vi har key samt valuen som skal lagres)
