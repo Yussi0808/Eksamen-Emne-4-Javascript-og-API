@@ -79,6 +79,19 @@ function filterPokemonByType(pokemonData, type) {
   }
 }
 
+// Funksjon for å legge til bakgrunnsfarge basert på type:
+function setTypeBackgroundColor(pokemonType) {
+  switch (pokemonType) {
+    case "fire":
+      return "red";
+    case "water":
+      return "blue";
+    // Legge til flere typer
+    default:
+      return "gray"; // dersom fargen ikke matcher
+  }
+}
+
 // 1.4 Lagre Pokemon:
 
 // For å lagre: (krav at vi har key samt valuen som skal lagres)
