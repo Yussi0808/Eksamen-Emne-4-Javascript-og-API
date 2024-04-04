@@ -92,6 +92,20 @@ function setTypeBackgroundColor(pokemonType) {
   }
 }
 
+// Filtrere og vise pokemon basert på valgt type
+async function filterAndDisplayPokeman(type) {
+  const pokemonData = await fetchPokemonData(API_URL);
+  const filteredPokemon = filterPokemonByType(pokemonData, type);
+  displayPokemon(filteredPokemon);
+
+  filteredPokemon.forEach((pokemon) => {
+    const card = document.querySelector(`[data-name="${pokemon.name}"]`);
+    card.style.backgroundColor = setTypeBackgroundColor(
+      pokemon.types[0].type.name
+    );
+  });
+}
+
 // 1.4 Lagre Pokemon:
 
 // For å lagre: (krav at vi har key samt valuen som skal lagres)
