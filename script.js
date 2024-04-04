@@ -66,6 +66,46 @@ async function fetchPokemonDetails(pokemonResponse) {
 
 fetchPokemonDetails(pokemonResponse);
 
+// 1.2 Filtrering og styling:
+
+//Filtrerings funksjon basert på type
+function filterPokemonByType(pokemonData, type) {
+  if (type === "all") {
+    return pokemonData;
+  } else {
+    return pokemonData.filter((pokemon) =>
+      pokemon.types.some((t) => t.type.name === type)
+    );
+  }
+}
+
+// Funksjon for å legge til bakgrunnsfarge basert på type:
+function setTypeBackgroundColor(pokemonType) {
+  switch (pokemonType) {
+    case "fire":
+      return "red";
+    case "water":
+      return "blue";
+    // Legge til flere typer
+    default:
+      return "gray"; // dersom fargen ikke matcher
+  }
+}
+
+// Filtrere og vise pokemon basert på valgt type
+async function filterAndDisplayPokeman(type) {
+  const pokemonData = await fetchPokemonData(API_URL);
+  const filteredPokemon = filterPokemonByType(pokemonData, type);
+  displayPokemon(filteredPokemon);
+
+  filteredPokemon.forEach((pokemon) => {
+    const card = document.querySelector(`[data-name="${pokemon.name}"]`);
+    card.style.backgroundColor = setTypeBackgroundColor(
+      pokemon.types[0].type.name
+    );
+  });
+}
+
 // 1.4 Lagre Pokemon:
 
 // For å lagre: (krav at vi har key samt valuen som skal lagres)
