@@ -106,6 +106,16 @@ async function filterAndDisplayPokeman(type) {
   });
 }
 
+const filterButtons = document.querySelectorAll(".filter-btn");
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const type = button.dataset.type; // Henter typen fra datasettet til knappen
+    filterAndDisplayPokemon(type); // Kaller funksjonen for å filtrere og vise Pokémon basert på valgt type
+  });
+});
+
+fetchAndDisplayPokemon();
+
 // 1.4 Lagre Pokemon:
 
 // For å lagre: (krav at vi har key samt valuen som skal lagres)
