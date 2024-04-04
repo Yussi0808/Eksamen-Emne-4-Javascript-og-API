@@ -15,7 +15,45 @@ async function fetchPokemonData(url) {
 async function fetchAndDisplayPokemon() {
   const pokemonData = await fetchPokemonData(API_URL);
   const pokemonContainer = document.querySelector(".pokemonContainer");
-  
+
+  pokemonData.forEach(async (pokemon) => {
+    const response = await fetch(pokemon.url);
+    const pokemonDetails = await response.json();
+
+    const card = document.createElement("div");
+    card.classList.add("pokemon");
+
+    const nameElement = document.createElement("p");
+    nameElement.textContent = "Name: " + pokemonDetails.name;
+
+    const typeElement = document.createElement("p");
+    typeElement.textContent = "Type: " + pokemonDetails.types[0].type.name;
+
+    const imageElement = document.createElement("img");
+    imageElement.src = pokemonDetails.sprites.front_default;
+
+    const likedPokemon = document.createElement("button");
+    likedPokemon.textContent = "👍🏼";
+
+    const editPokemon = document.createElement("button");
+    editPokemon.textContent = "✍️";
+
+    const deletePokemon = document.createElement("button");
+    deletePokemon.textContent = "❌";
+
+    card.appendChild(nameElement);
+    card.appendChild(typeElement);
+    card.appendChild(imageElement);
+    card.appendChild(likedPokemon);
+    card.appendChild(editPokemon);
+    card.appendChild(deletePokemon);
+
+    pokemonContainer.appendChild(card);
+  });
+}
+
+fetchAndDisplayPokemon();
+
 // 1.4 Lagre Pokemon:
 
 // For å lagre: (krav at vi har key samt valuen som skal lagres)
