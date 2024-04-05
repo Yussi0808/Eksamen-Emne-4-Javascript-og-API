@@ -1,6 +1,4 @@
 // 1.1 Visning av alle Pokemon:
-// 1.1 Visning av alle Pokemon:
-
 const API_URL = "https://pokeapi.co/api/v2/pokemon?offset=50&limit=50"; // Kan anvendes i forskjellige steder.
 async function fetchPokemonData(url) {
   try {
