@@ -15,6 +15,8 @@ async function fetchAndDisplayPokemon() {
   const pokemonData = await fetchPokemonData(API_URL);
   const pokemonContainer = document.querySelector(".pokemonContainer");
 
+  let favouriteList = [];
+
   pokemonData.forEach(async (pokemon) => {
     const response = await fetch(pokemon.url);
     const pokemonDetails = await response.json();
@@ -31,26 +33,56 @@ async function fetchAndDisplayPokemon() {
     const imageElement = document.createElement("img");
     imageElement.src = pokemonDetails.sprites.front_default;
 
-    const likedPokemon = document.createElement("button");
-    likedPokemon.textContent = "👍🏼";
+    //Liked
+    const likedBtn = document.createElement("button");
+    likedBtn.textContent = "👍🏼";
+    likedBtn.addEventListener("click", async function () {
+      const response = await fetch(pokemon.url);
 
-    const editPokemon = document.createElement("button");
-    editPokemon.textContent = "✍️";
+      const pokemonDetails = await response.json();
+      favouriteList = [...favouriteList, pokemonDetails];
 
-    const deletePokemon = document.createElement("button");
-    deletePokemon.textContent = "❌";
+      localStorage.setItem("", JSON.stringify(favouriteList));
+      favouriteList.forEach(async (pokemon) => {
+        console.log(pokemon);
+        const favouritePokemon = document.createElement("li");
+        const nameElement = document.createElement("p");
+        nameElement.textContent = "Name: " + pokemon.name;
 
+        const typeElement = document.createElement("p");
+        typeElement.textContent = "Type: " + pokemon.types[0].type.name;
+
+        const imageElement = document.createElement("img");
+        imageElement.src = pokemon.sprites.front_default;
+
+        favouritePokemon.appendChild(nameElement);
+        favouritePokemon.appendChild(typeElement);
+        favouritePokemon.appendChild(imageElement);
+
+        document.querySelector("#li");
+      });
+    });
+
+    //Edit
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "✍️";
+
+    //Slette
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "❌";
+    deleteBtn.addEventListener("click", function () {
+      fetchPokemonDetails(index);
+    });
     card.appendChild(nameElement);
     card.appendChild(typeElement);
     card.appendChild(imageElement);
-    card.appendChild(likedPokemon);
-    card.appendChild(editPokemon);
-    card.appendChild(deletePokemon);
+    card.appendChild(likedBtn);
+    card.appendChild(editBtn);
+    card.appendChild(deleteBtn);
 
     pokemonContainer.appendChild(card);
   });
 }
-
 fetchAndDisplayPokemon();
 
 // 1.2 Filtrering og styling:
