@@ -1,4 +1,5 @@
 // 1.1 Visning av alle Pokemon:
+// 1.1 Visning av alle Pokemon:
 
 const API_URL = "https://pokeapi.co/api/v2/pokemon?offset=50&limit=50"; // Kan anvendes i forskjellige steder.
 async function fetchPokemonData(url) {
@@ -12,67 +13,47 @@ async function fetchPokemonData(url) {
     alert("Ooops! Couldnt fetch pokemon.", error);
   }
 }
-let pokemonliked = [];
-const pokemonResponse = fetchPokemonData(API_URL);
+async function fetchAndDisplayPokemon() {
+  const pokemonData = await fetchPokemonData(API_URL);
+  const pokemonContainer = document.querySelector(".pokemonContainer");
 
-async function fetchPokemonDetails(pokemonResponse) {
-  const pokemonList = await pokemonResponse;
+  pokemonData.forEach(async (pokemon) => {
+    const response = await fetch(pokemon.url);
+    const pokemonDetails = await response.json();
 
-  if (pokemonList.length < 0) return []; // Hvis liste er tom , returner fra metoden nedenfor.
-  let fullPokemonDataFromApi = [];
-  pokemonliked.push(pokemonList);
-  console.log(pokemonliked);
+    const card = document.createElement("div");
+    card.classList.add("pokemon");
 
-  for (let index = 0; index < pokemonList.length; index++) {
-    const pokemon = await pokemonList[index];
-    const fullPokemonDetails = await fetch(pokemon.url);
-
-    const detailedPokemonList = await fullPokemonDetails.json();
-
-    const pokemonContainer = document.querySelector(".pokemonContainer");
-    // create container card
-    const containerCard = document.createElement("div");
-
-    containerCard.classList.add("pokemon");
     const nameElement = document.createElement("p");
+    nameElement.textContent = "Name: " + pokemonDetails.name;
 
-    nameElement.innerHTML = "Name: " + detailedPokemonList.name;
     const typeElement = document.createElement("p");
-    typeElement.innerHTML = "Type: " + detailedPokemonList.types[0].type.name;
+    typeElement.textContent = "Type: " + pokemonDetails.types[0].type.name;
+
     const imageElement = document.createElement("img");
+    imageElement.src = pokemonDetails.sprites.front_default;
 
-    //Slette
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "❌";
-    deleteBtn.addEventListener("click", function () {
-      fetchPokemonDetails(index);
-    });
+    const likedPokemon = document.createElement("button");
+    likedPokemon.textContent = "👍🏼";
 
-    //Edit
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "✍️";
+    const editPokemon = document.createElement("button");
+    editPokemon.textContent = "✍️";
 
-    //Liked
-    const likedBtn = document.createElement("button");
-    likedBtn.textContent = "👍🏼";
+    const deletePokemon = document.createElement("button");
+    deletePokemon.textContent = "❌";
 
-    imageElement.src = detailedPokemonList.sprites.front_default;
-    containerCard.appendChild(nameElement);
-    containerCard.appendChild(typeElement);
-    containerCard.appendChild(imageElement);
-    containerCard.appendChild(likedBtn);
-    containerCard.appendChild(editBtn);
-    containerCard.appendChild(deleteBtn);
-    pokemonContainer.appendChild(containerCard);
-    pokemonliked.push(containerCard);
+    card.appendChild(nameElement);
+    card.appendChild(typeElement);
+    card.appendChild(imageElement);
+    card.appendChild(likedPokemon);
+    card.appendChild(editPokemon);
+    card.appendChild(deletePokemon);
 
-    fullPokemonDataFromApi = [...fullPokemonDataFromApi, detailedPokemonList];
-  }
-
-  return fullPokemonDataFromApi;
+    pokemonContainer.appendChild(card);
+  });
 }
 
-fetchPokemonDetails(pokemonResponse);
+fetchAndDisplayPokemon();
 
 // 1.2 Filtrering og styling:
 
