@@ -31,26 +31,32 @@ async function fetchAndDisplayPokemon() {
     const imageElement = document.createElement("img");
     imageElement.src = pokemonDetails.sprites.front_default;
 
-    const likedPokemon = document.createElement("button");
-    likedPokemon.textContent = "👍🏼";
+    //Liked
+    const likedBtn = document.createElement("button");
+    likedBtn.textContent = "👍🏼";
 
-    const editPokemon = document.createElement("button");
-    editPokemon.textContent = "✍️";
+    //Edit
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "✍️";
 
-    const deletePokemon = document.createElement("button");
-    deletePokemon.textContent = "❌";
+    //Slette
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "❌";
+    deleteBtn.addEventListener("click", function () {
+      fetchPokemonDetails(index);
 
-    card.appendChild(nameElement);
-    card.appendChild(typeElement);
-    card.appendChild(imageElement);
-    card.appendChild(likedPokemon);
-    card.appendChild(editPokemon);
-    card.appendChild(deletePokemon);
+      card.appendChild(nameElement);
+      card.appendChild(typeElement);
+      card.appendChild(imageElement);
+      card.appendChild(likedBtn);
+      card.appendChild(editBtn);
+      card.appendChild(deleteBtn);
 
-    pokemonContainer.appendChild(card);
-  });
+      pokemonContainer.appendChild(card);
+    });
+  }
+  );
 }
-
 fetchAndDisplayPokemon();
 
 // 1.2 Filtrering og styling:
