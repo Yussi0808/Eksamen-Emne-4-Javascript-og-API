@@ -8,24 +8,30 @@
     <title>Javascript og API Eksamen Vår 2024</title>
   </head>
   <body>
-    <div class="pokemonContainer">            
+    <div class="pokemonContainer">
       <h1>Pokemon</h1>
-    <input type="text" placeholder="Navn på ny Pokemon..."                                                                                                                                                                                                                                                                                                                                                                             
- />
-    <input type="button" value="Legg til Pokemon!" id="a                                                                                                                                                                                                                                                                                                                                                     dd-btn" />         
-    <div class="pokemon-container"></div>      
-    </div>                         
-                                                                    
+      <input type="text" placeholder="Navn på ny Pokemon..." />
+      <input
+        type="button"
+        value="Legg til Pokemon!"
+        id="a                                                                                                                                                                                                                                                                                                                                                     dd-btn"
+      />
+
+      <button class="setPokemon" onclick="setLocalStorage()">
+        Set Items til localStorage
+      </button>
+      <button class="showPokemon" onclick="showLocalStorage()">
+        Vis localStorage
+      </button>
+
+      <button onclick="removeLocalStorage()">Fjern fra localStorage</button>
+      <div class="likedPokemon">
+        <div>img</div>
+      </div>
+      <div id="favouriteContainer"></div>
+
+      <!--  -->
+      <div id="output"></div>
     </div>
-    <button class="setPokemon" onclick="setLocalStorage()">Set Items til localStorage</button>                                                                                                                                                                                                                            
-    <button class="showPokemon" onclick="showLocalStorage()">Vis localStorage</button>
-                 
-    <button onclick="removeLocalStorage()">Fjern fra localStorage</button>
-    <h2>li</h2>
-    <div id="favouriteContainer"></div>
-
-        <!--  -->
-    <div id="output"></div>
-
   </body>
 </html>
