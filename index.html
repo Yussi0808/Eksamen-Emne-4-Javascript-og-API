@@ -11,15 +11,13 @@
     <div class="Title">
       <h1>Pokemon</h1>
     </div>
-    <div class="allButtons">
+    <div class="addPokemon">
       <h4>Legg til Pokemon</h4>
-      <input type="text" placeholder="Navn på ny Pokemon..." />
-      <input
-        type="button"
-        value="Legg til"
-        id="a                                                                                                                                                                                                                                                                                                                                                     dd-btn"
-      />
+      <input type="text" id="pokemonName" placeholder="Navn på ny Pokemon..." />
+      <input type="text" id="pokemonType" placeholder="Type av ny Pokemon..." />
+      <input type="button" value="Legg til" id="addPokemonBtn" />
     </div>
+    <br />
     <div>
       <button class="setPokemon" onclick="setLocalStorage()">
         Set Items til localStorage
