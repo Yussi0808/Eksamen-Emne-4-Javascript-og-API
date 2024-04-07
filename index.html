@@ -20,12 +20,7 @@
         id="a                                                                                                                                                                                                                                                                                                                                                     dd-btn"
       />
     </div>
-    <br />
-    <div class="filterButtons">
-      <button class="filter-btn" data-type="fire">Fire</button>
-      <button class="filter-btn" data-type="water">Water</button>
-    </div>
-    <div class="pokemonContainer">
+    <div>
       <button class="setPokemon" onclick="setLocalStorage()">
         Set Items til localStorage
       </button>
@@ -34,11 +29,18 @@
       </button>
 
       <button onclick="removeLocalStorage()">Fjern fra localStorage</button>
-
-      <br />
-
+    </div>
+    <br />
+    <div class="filterButtons">
+      <h4>Filtrer basert på type</h4>
+      <button class="filter-btn" data-type="fire">Fire</button>
+      <button class="filter-btn" data-type="water">Water</button>
+      <button class="filter-btn" data-type="all">Fjern Filter</button>
+    </div>
+    <br />
+    <div class="pokemonContainer">
       <div class="likedPokemon">
-        <div>img</div>
+        <div></div>
       </div>
       <div id="favouriteContainer"></div>
 
