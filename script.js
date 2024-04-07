@@ -11,11 +11,12 @@ async function fetchPokemonData(url) {
     alert("Ooops! Couldnt fetch pokemon.", error);
   }
 }
+
+let favouriteList = [];
+
 async function fetchAndDisplayPokemon() {
   const pokemonData = await fetchPokemonData(API_URL);
   const pokemonContainer = document.querySelector(".pokemonContainer");
-
-  let favouriteList = [];
 
   pokemonData.forEach(async (pokemon) => {
     const response = await fetch(pokemon.url);
@@ -37,30 +38,49 @@ async function fetchAndDisplayPokemon() {
     const likedBtn = document.createElement("button");
     likedBtn.textContent = "👍🏼";
     likedBtn.addEventListener("click", async function () {
-      const response = await fetch(pokemon.url);
+      if (favouriteList.length < 5) {
+        favouriteList.push(pokemonDetails);
+        localStorage.setItem("Pokemon key", JSON.stringify(favouriteList));
+        displayFavouritePokemon();
+      } else {
+        alert(
+          "Maximum limit of five favourite Pokemon is reached, Please delete one pokemon to save one new"
+        );
+      }
 
-      const pokemonDetails = await response.json();
-      favouriteList = [...favouriteList, pokemonDetails];
-
-      localStorage.setItem("", JSON.stringify(favouriteList));
       favouriteList.forEach(async (pokemon) => {
-        console.log(pokemon);
-        const favouritePokemon = document.createElement("li");
-        const nameElement = document.createElement("p");
-        nameElement.textContent = "Name: " + pokemon.name;
-
-        const typeElement = document.createElement("p");
-        typeElement.textContent = "Type: " + pokemon.types[0].type.name;
-
-        const imageElement = document.createElement("img");
-        imageElement.src = pokemon.sprites.front_default;
-
-        favouritePokemon.appendChild(nameElement);
-        favouritePokemon.appendChild(typeElement);
-        favouritePokemon.appendChild(imageElement);
-
-        document.querySelector("#li");
+        const favouritePokemon = document.createElement("favouritePokemons");
+        favouritePokemon.innerHTML = `
+        <p>Name: ${pokemon.name}</p>                                //Anvendt chatGpt her for å forkorte koden
+        <p>Type: ${pokemon.type[0].type.name}<p>
+        <img src"${pokemon.sprites.front_default}">
+        `;
       });
+    });
+
+    function displayFavouritePokemon() {
+      const favouritePokemonContainer = document.querySelector(
+        ".favouritePokemonContainer"
+      );
+      favouritePokemonContainer.innerHTML = "";
+    }
+    favouriteList.forEach((pokemon) => {
+      const favouritePokemonCard = document.createElement("div");
+      favouritePokemonCard.classList.add("favouritePokemon");
+      const nameElement = document.createElement("p");
+      nameElement.textContent = "Name: " + pokemon.name;
+
+      const typeElement = document.createElement("p");
+      typeElement.textContent = "Type: " + pokemon.types[0].type.name;
+
+      const imageElement = document.createElement("img");
+      imageElement.src = pokemon.sprites.front_default;
+
+      favouritePokemonCard.appendChild(nameElement);
+      favouritePokemonCard.appendChild(typeElement);
+      favouritePokemonCard.appendChild(imageElement);
+
+      favouritePokemonContainer.appendChild(favouritePokemonCard);
     });
 
     //Edit
@@ -71,7 +91,7 @@ async function fetchAndDisplayPokemon() {
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "❌";
     deleteBtn.addEventListener("click", function () {
-      fetchPokemonDetails(index);
+      pokemonDetails(index);
     });
     card.appendChild(nameElement);
     card.appendChild(typeElement);
@@ -167,8 +187,7 @@ function removeLocalStorage() {
     "Pokemon er fjernet fra localStorage.";
 }
 
-function renderProfile() {
-  if (likedPokomon.length > 5) {
-    alert("Delete at least one Pokemonprofile from the list!");
-  }
+function renderPokemon() {
+  console.log("render pokemon");
+  favouriteList.map((p) => console.log(p));
 }
