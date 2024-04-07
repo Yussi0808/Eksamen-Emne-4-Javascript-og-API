@@ -33,7 +33,10 @@ async function fetchAndDisplayPokemon() {
 
     const imageElement = document.createElement("img");
     imageElement.src = pokemonDetails.sprites.front_default;
+
+    //Legge till alle pokemons i en global liste
     allPokemonDetails.push(pokemonDetails);
+
     //Liked
     const likedBtn = document.createElement("button");
     likedBtn.textContent = "👍🏼";
@@ -104,7 +107,51 @@ async function fetchAndDisplayPokemon() {
     //displayPokemon(allPokemonDetails, ".pokemonContainer");
   });
 }
-fetchAndDisplayPokemon();
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await fetchAndDisplayPokemon(); // Ensures Pokémon are fetched and displayed upon load.
+
+  // Setup for filter buttons as you have it
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const type = button.getAttribute("data-type");
+      filterAndDisplayPokemon(type);
+    });
+  });
+
+  // New code to add a Pokémon starts here
+  document.getElementById("addPokemonBtn").addEventListener("click", () => {
+    const nameInput = document.getElementById("pokemonName");
+    const typeInput = document.getElementById("pokemonType");
+
+    const pokemonName = nameInput.value.trim();
+    const pokemonType = typeInput.value.trim().toLowerCase();
+
+    if (!pokemonName || !pokemonType) {
+      alert("Please enter both a name and a type for the Pokémon.");
+      return;
+    }
+
+    // Create a new Pokémon object
+    const newPokemon = {
+      name: pokemonName,
+      types: [{ type: { name: pokemonType } }],
+      sprites: {
+        front_default: "./pics/poke1.png",
+      }, // Placeholder image URL
+    };
+
+    allPokemonDetails.push(newPokemon);
+
+    // Clear input fields
+    nameInput.value = "";
+    typeInput.value = "";
+
+    // Display all Pokémon including the newly added one
+    displayPokemon(allPokemonDetails, ".pokemonContainer");
+  });
+});
 
 // 1.2 Filtrering og styling:
 
