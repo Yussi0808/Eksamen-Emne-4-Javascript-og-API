@@ -38,11 +38,16 @@ async function fetchAndDisplayPokemon() {
     const likedBtn = document.createElement("button");
     likedBtn.textContent = "👍🏼";
     likedBtn.addEventListener("click", async function () {
-      const response = await fetch(pokemon.url);
-      const pokemonDetails = await response.json();
-      favouriteList.push(pokemonDetails);
+      if (favouriteList.length < 5) {
+        favouriteList.push(pokemonDetails);
+        localStorage.setItem("Pokemon key", JSON.stringify(favouriteList));
+        displayFavouritePokemon();
+      } else {
+        alert(
+          "Maximum limit of five favourite Pokemon is reached, Please delete one pokemon to save one new"
+        );
+      }
 
-      localStorage.setItem("", JSON.stringify(favouriteList));
       favouriteList.forEach(async (pokemon) => {
         const favouritePokemon = document.createElement("favouritePokemons");
         favouritePokemon.innerHTML = `
@@ -53,6 +58,31 @@ async function fetchAndDisplayPokemon() {
       });
     });
 
+    function displayFavouritePokemon() {
+      const favouritePokemonContainer = document.querySelector(
+        ".favouritePokemonContainer"
+      );
+      favouritePokemonContainer.innerHTML = "";
+    }
+    favouriteList.forEach((pokemon) => {
+      const favouritePokemonCard = document.createElement("div");
+      favouritePokemonCard.classList.add("favouritePokemon");
+      const nameElement = document.createElement("p");
+      nameElement.textContent = "Name: " + pokemon.name;
+
+      const typeElement = document.createElement("p");
+      typeElement.textContent = "Type: " + pokemon.types[0].type.name;
+
+      const imageElement = document.createElement("img");
+      imageElement.src = pokemon.sprites.front_default;
+
+      favouritePokemonCard.appendChild(nameElement);
+      favouritePokemonCard.appendChild(typeElement);
+      favouritePokemonCard.appendChild(imageElement);
+
+      favouritePokemonContainer.appendChild(favouritePokemonCard);
+    });
+
     //Edit
     const editBtn = document.createElement("button");
     editBtn.textContent = "✍️";
@@ -61,7 +91,7 @@ async function fetchAndDisplayPokemon() {
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "❌";
     deleteBtn.addEventListener("click", function () {
-      fetchPokemonDetails(index);
+      pokemonDetails(index);
     });
     card.appendChild(nameElement);
     card.appendChild(typeElement);
