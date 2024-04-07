@@ -107,7 +107,7 @@ async function fetchAndDisplayPokemon() {
     //displayPokemon(allPokemonDetails, ".pokemonContainer");
   });
 }
-
+//Make your own pokemon
 document.addEventListener("DOMContentLoaded", async () => {
   await fetchAndDisplayPokemon(); // Ensures Pokémon are fetched and displayed upon load.
 
@@ -196,9 +196,6 @@ async function displayPokemon(pokemonData, containerSelector) {
 
     const card = document.createElement("div");
     card.classList.add("pokemon-card");
-    card.style.backgroundColor = setTypeBackgroundColor(
-      pokemonDetails.types[0].type.name
-    );
 
     const nameElement = document.createElement("p");
     nameElement.textContent = `Name: ${pokemonDetails.name}`;
@@ -209,7 +206,9 @@ async function displayPokemon(pokemonData, containerSelector) {
     const imageElement = document.createElement("img");
     imageElement.src = pokemonDetails.sprites.front_default;
     imageElement.alt = `Image of ${pokemonDetails.name}`;
-
+    card.style.backgroundColor = setTypeBackgroundColor(
+      pokemonDetails.types[0].type.name
+    );
     //Edit
     const editBtn = document.createElement("button");
     editBtn.textContent = "✍️";
