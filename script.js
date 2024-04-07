@@ -149,9 +149,9 @@ async function displayPokemon(pokemonData, containerSelector) {
 
     const card = document.createElement("div");
     card.classList.add("pokemon-card");
-    /*card.style.backgroundColor = setTypeBackgroundColor(
+    card.style.backgroundColor = setTypeBackgroundColor(
       pokemonDetails.types[0].type.name
-    );*/
+    );
 
     const nameElement = document.createElement("p");
     nameElement.textContent = `Name: ${pokemonDetails.name}`;
@@ -163,12 +163,50 @@ async function displayPokemon(pokemonData, containerSelector) {
     imageElement.src = pokemonDetails.sprites.front_default;
     imageElement.alt = `Image of ${pokemonDetails.name}`;
 
+    //Edit
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "✍️";
+
+    //Slette
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "❌";
+    deleteBtn.addEventListener("click", function () {
+      pokemonDetails(index);
+    });
     card.appendChild(nameElement);
     card.appendChild(typeElement);
     card.appendChild(imageElement);
-
+    card.appendChild(editBtn);
+    card.appendChild(deleteBtn);
     container.appendChild(card);
   }
+}
+function setTypeBackgroundColor(type) {
+  const typeColorMap = {
+    fire: "#F08030",
+    water: "#6890F0",
+    grass: "#78C850",
+    electric: "#F8D030",
+    psychic: "#F85888",
+    ice: "#98D8D8",
+    dragon: "#7038F8",
+    dark: "#705848",
+    fairy: "#EE99AC",
+    normal: "#A8A878",
+    bug: "#A8B820",
+    poison: "#A040A0",
+    ground: "#E0C068",
+    rock: "#B8A038",
+    ghost: "#705898",
+    steel: "#B8B8D0",
+    fighting: "#C03028",
+    flying: "#A890F0",
+    // Add more mappings as needed
+  };
+
+  // Default color if the type is not in the map
+  const defaultColor = "#68A090";
+  return typeColorMap[type.toLowerCase()] || defaultColor;
 }
 
 // 1.4 Lagre Pokemon:
