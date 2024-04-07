@@ -13,7 +13,7 @@ async function fetchPokemonData(url) {
 }
 
 let favouriteList = [];
-
+let allPokemonDetails = [];
 async function fetchAndDisplayPokemon() {
   const pokemonData = await fetchPokemonData(API_URL);
   const pokemonContainer = document.querySelector(".pokemonContainer");
@@ -33,7 +33,7 @@ async function fetchAndDisplayPokemon() {
 
     const imageElement = document.createElement("img");
     imageElement.src = pokemonDetails.sprites.front_default;
-
+    allPokemonDetails.push(pokemonDetails);
     //Liked
     const likedBtn = document.createElement("button");
     likedBtn.textContent = "👍🏼";
@@ -101,59 +101,75 @@ async function fetchAndDisplayPokemon() {
     card.appendChild(deleteBtn);
 
     pokemonContainer.appendChild(card);
+    //displayPokemon(allPokemonDetails, ".pokemonContainer");
   });
 }
 fetchAndDisplayPokemon();
 
 // 1.2 Filtrering og styling:
 
+async function filterAndDisplayPokemon(type) {
+  // Instead of fetching new data, use the already stored allPokemonDetails for filtering
+  const filteredPokemon = filterPokemonByType(allPokemonDetails, type);
+  await displayPokemon(filteredPokemon, ".pokemonContainer");
+}
+
+// Event listeners for filter buttons
+document.addEventListener("DOMContentLoaded", () => {
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const type = button.getAttribute("data-type");
+      filterAndDisplayPokemon(type);
+    });
+  });
+});
+
 //Filtrerings funksjon basert på type
 function filterPokemonByType(pokemonData, type) {
   if (type === "all") {
     return pokemonData;
   } else {
-    return pokemonData.filter((pokemon) =>
-      pokemon.types.some((t) => t.type.name === type)
+    return pokemonData.filter(
+      (pokemon) =>
+        pokemon.types && pokemon.types.some((t) => t.type.name === type)
     );
   }
 }
 
-// Funksjon for å legge til bakgrunnsfarge basert på type:
-function setTypeBackgroundColor(pokemonType) {
-  switch (pokemonType) {
-    case "fire":
-      return "red";
-    case "water":
-      return "blue";
-    // Legge til flere typer
-    default:
-      return "gray"; // dersom fargen ikke matcher
+async function displayPokemon(pokemonData, containerSelector) {
+  const container = document.querySelector(containerSelector);
+  container.innerHTML = ""; // Clear existing content
+
+  for (const pokemon of pokemonData) {
+    // If pokemon already contains detailed information (like in filteredPokemon), skip fetching.
+    const pokemonDetails = pokemon.url
+      ? await fetch(pokemon.url).then((res) => res.json())
+      : pokemon;
+
+    const card = document.createElement("div");
+    card.classList.add("pokemon-card");
+    /*card.style.backgroundColor = setTypeBackgroundColor(
+      pokemonDetails.types[0].type.name
+    );*/
+
+    const nameElement = document.createElement("p");
+    nameElement.textContent = `Name: ${pokemonDetails.name}`;
+
+    const typeElement = document.createElement("p");
+    typeElement.textContent = "Type: " + pokemonDetails.types[0].type.name;
+
+    const imageElement = document.createElement("img");
+    imageElement.src = pokemonDetails.sprites.front_default;
+    imageElement.alt = `Image of ${pokemonDetails.name}`;
+
+    card.appendChild(nameElement);
+    card.appendChild(typeElement);
+    card.appendChild(imageElement);
+
+    container.appendChild(card);
   }
 }
-
-// Filtrere og vise pokemon basert på valgt type
-async function filterAndDisplayPokeman(type) {
-  const pokemonData = await fetchPokemonData(API_URL);
-  const filteredPokemon = filterPokemonByType(pokemonData, type);
-  displayPokemon(filteredPokemon);
-
-  filteredPokemon.forEach((pokemon) => {
-    const card = document.querySelector(`[data-name="${pokemon.name}"]`);
-    card.style.backgroundColor = setTypeBackgroundColor(
-      pokemon.types[0].type.name
-    );
-  });
-}
-
-const filterButtons = document.querySelectorAll(".filter-btn");
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const type = button.dataset.type; // Henter typen fra datasettet til knappen
-    filterAndDisplayPokemon(type); // Kaller funksjonen for å filtrere og vise Pokémon basert på valgt type
-  });
-});
-
-fetchAndDisplayPokemon();
 
 // 1.4 Lagre Pokemon:
 
