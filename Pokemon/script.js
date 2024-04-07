@@ -13,7 +13,7 @@ async function fetchPokemonData(url) {
 }
 
 let favouriteList = [];
-
+let allPokemonDetails = [];
 async function fetchAndDisplayPokemon() {
   const pokemonData = await fetchPokemonData(API_URL);
   const pokemonContainer = document.querySelector(".pokemonContainer");
@@ -33,6 +33,9 @@ async function fetchAndDisplayPokemon() {
 
     const imageElement = document.createElement("img");
     imageElement.src = pokemonDetails.sprites.front_default;
+
+    //Legge till alle pokemons i en global liste
+    allPokemonDetails.push(pokemonDetails);
 
     //Liked
     const likedBtn = document.createElement("button");
@@ -101,59 +104,156 @@ async function fetchAndDisplayPokemon() {
     card.appendChild(deleteBtn);
 
     pokemonContainer.appendChild(card);
+    //displayPokemon(allPokemonDetails, ".pokemonContainer");
   });
 }
-fetchAndDisplayPokemon();
+//Make your own pokemon
+document.addEventListener("DOMContentLoaded", async () => {
+  await fetchAndDisplayPokemon(); // Ensures Pokémon are fetched and displayed upon load.
+
+  // Setup for filter buttons as you have it
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const type = button.getAttribute("data-type");
+      filterAndDisplayPokemon(type);
+    });
+  });
+
+  // New code to add a Pokémon starts here
+  document.getElementById("addPokemonBtn").addEventListener("click", () => {
+    const nameInput = document.getElementById("pokemonName");
+    const typeInput = document.getElementById("pokemonType");
+
+    const pokemonName = nameInput.value.trim();
+    const pokemonType = typeInput.value.trim().toLowerCase();
+
+    if (!pokemonName || !pokemonType) {
+      alert("Please enter both a name and a type for the Pokémon.");
+      return;
+    }
+
+    // Create a new Pokémon object
+    const newPokemon = {
+      name: pokemonName,
+      types: [{ type: { name: pokemonType } }],
+      sprites: {
+        front_default: "./pics/poke1.png",
+      }, // Placeholder image URL
+    };
+
+    allPokemonDetails.push(newPokemon);
+
+    // Clear input fields
+    nameInput.value = "";
+    typeInput.value = "";
+
+    // Display all Pokémon including the newly added one
+    displayPokemon(allPokemonDetails, ".pokemonContainer");
+  });
+});
 
 // 1.2 Filtrering og styling:
+
+async function filterAndDisplayPokemon(type) {
+  // Instead of fetching new data, use the already stored allPokemonDetails for filtering
+  const filteredPokemon = filterPokemonByType(allPokemonDetails, type);
+  await displayPokemon(filteredPokemon, ".pokemonContainer");
+}
+
+// Event listeners for filter buttons
+document.addEventListener("DOMContentLoaded", () => {
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const type = button.getAttribute("data-type");
+      filterAndDisplayPokemon(type);
+    });
+  });
+});
 
 //Filtrerings funksjon basert på type
 function filterPokemonByType(pokemonData, type) {
   if (type === "all") {
     return pokemonData;
   } else {
-    return pokemonData.filter((pokemon) =>
-      pokemon.types.some((t) => t.type.name === type)
+    return pokemonData.filter(
+      (pokemon) =>
+        pokemon.types && pokemon.types.some((t) => t.type.name === type)
     );
   }
 }
 
-// Funksjon for å legge til bakgrunnsfarge basert på type:
-function setTypeBackgroundColor(pokemonType) {
-  switch (pokemonType) {
-    case "fire":
-      return "red";
-    case "water":
-      return "blue";
-    // Legge til flere typer
-    default:
-      return "gray"; // dersom fargen ikke matcher
-  }
-}
+async function displayPokemon(pokemonData, containerSelector) {
+  const container = document.querySelector(containerSelector);
+  container.innerHTML = ""; // Clear existing content
 
-// Filtrere og vise pokemon basert på valgt type
-async function filterAndDisplayPokeman(type) {
-  const pokemonData = await fetchPokemonData(API_URL);
-  const filteredPokemon = filterPokemonByType(pokemonData, type);
-  displayPokemon(filteredPokemon);
+  for (const pokemon of pokemonData) {
+    // If pokemon already contains detailed information (like in filteredPokemon), skip fetching.
+    const pokemonDetails = pokemon.url
+      ? await fetch(pokemon.url).then((res) => res.json())
+      : pokemon;
 
-  filteredPokemon.forEach((pokemon) => {
-    const card = document.querySelector(`[data-name="${pokemon.name}"]`);
+    const card = document.createElement("div");
+    card.classList.add("pokemon-card");
+
+    const nameElement = document.createElement("p");
+    nameElement.textContent = `Name: ${pokemonDetails.name}`;
+
+    const typeElement = document.createElement("p");
+    typeElement.textContent = "Type: " + pokemonDetails.types[0].type.name;
+
+    const imageElement = document.createElement("img");
+    imageElement.src = pokemonDetails.sprites.front_default;
+    imageElement.alt = `Image of ${pokemonDetails.name}`;
     card.style.backgroundColor = setTypeBackgroundColor(
-      pokemon.types[0].type.name
+      pokemonDetails.types[0].type.name
     );
-  });
+    //Edit
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "✍️";
+
+    //Slette
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "❌";
+    deleteBtn.addEventListener("click", function () {
+      pokemonDetails(index);
+    });
+    card.appendChild(nameElement);
+    card.appendChild(typeElement);
+    card.appendChild(imageElement);
+    card.appendChild(editBtn);
+    card.appendChild(deleteBtn);
+    container.appendChild(card);
+  }
 }
+function setTypeBackgroundColor(type) {
+  const typeColorMap = {
+    fire: "#F08030",
+    water: "#6890F0",
+    grass: "#78C850",
+    electric: "#F8D030",
+    psychic: "#F85888",
+    ice: "#98D8D8",
+    dragon: "#7038F8",
+    dark: "#705848",
+    fairy: "#EE99AC",
+    normal: "#A8A878",
+    bug: "#A8B820",
+    poison: "#A040A0",
+    ground: "#E0C068",
+    rock: "#B8A038",
+    ghost: "#705898",
+    steel: "#B8B8D0",
+    fighting: "#C03028",
+    flying: "#A890F0",
+    // Add more mappings as needed
+  };
 
-const filterButtons = document.querySelectorAll(".filter-btn");
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const type = button.dataset.type; // Henter typen fra datasettet til knappen
-    filterAndDisplayPokemon(type); // Kaller funksjonen for å filtrere og vise Pokémon basert på valgt type
-  });
-});
-
-fetchAndDisplayPokemon();
+  // Default color if the type is not in the map
+  const defaultColor = "#68A090";
+  return typeColorMap[type.toLowerCase()] || defaultColor;
+}
 
 // 1.4 Lagre Pokemon:
 
