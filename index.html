@@ -8,15 +8,24 @@
     <title>Javascript og API Eksamen Vår 2024</title>
   </head>
   <body>
-    <div class="pokemonContainer">
+    <div class="Title">
       <h1>Pokemon</h1>
+    </div>
+    <div class="allButtons">
+      <h4>Legg til Pokemon</h4>
       <input type="text" placeholder="Navn på ny Pokemon..." />
       <input
         type="button"
-        value="Legg til Pokemon!"
+        value="Legg til"
         id="a                                                                                                                                                                                                                                                                                                                                                     dd-btn"
       />
-
+    </div>
+    <br />
+    <div class="filterButtons">
+      <button class="filter-btn" data-type="fire">Fire</button>
+      <button class="filter-btn" data-type="water">Water</button>
+    </div>
+    <div class="pokemonContainer">
       <button class="setPokemon" onclick="setLocalStorage()">
         Set Items til localStorage
       </button>
@@ -25,6 +34,9 @@
       </button>
 
       <button onclick="removeLocalStorage()">Fjern fra localStorage</button>
+
+      <br />
+
       <div class="likedPokemon">
         <div>img</div>
       </div>
