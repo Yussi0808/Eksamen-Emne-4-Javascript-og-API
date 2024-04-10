@@ -16,3 +16,31 @@ body {
   text-shadow: 3px 3px 0 #3b4cca, 6px 6px 0 #3b4cca;
   user-select: none;
 }
+
+.setPokemon,
+.showPokemon,
+button[onclick="removeLocalStorage()"],
+.filter-btn,
+#addPokemonBtn {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  color: #ffcb05;
+  font-weight: bold;
+  background-color: #3b4cca;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.setPokemon:hover,
+.showPokemon:hover,
+button[onclick="removeLocalStorage()"]:hover,
+.filter-btn:hover,
+#addPokemonBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
