@@ -1,0 +1,18 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.Title h1 {
+  text-align: center;
+  color: #ffcb05;
+  -webkit-text-stroke: 3px #3b4cca;
+  font-family: "Arial", sans-serif;
+  font-size: 72px;
+  font-weight: bold;
+  text-shadow: 3px 3px 0 #3b4cca, 6px 6px 0 #3b4cca;
+  user-select: none;
+}
