@@ -1,0 +1,83 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.Title h1 {
+  text-align: center;
+  color: #ffcb05;
+  -webkit-text-stroke: 3px #3b4cca;
+  font-family: "Arial", sans-serif;
+  font-size: 72px;
+  font-weight: bold;
+  text-shadow: 3px 3px 0 #3b4cca, 6px 6px 0 #3b4cca;
+  user-select: none;
+}
+
+.setPokemon,
+.showPokemon,
+button[onclick="removeLocalStorage()"],
+.filter-btn,
+#addPokemonBtn {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  color: #ffcb05;
+  font-weight: bold;
+  background-color: #3b4cca;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.setPokemon:hover,
+.showPokemon:hover,
+button[onclick="removeLocalStorage()"]:hover,
+.filter-btn:hover,
+#addPokemonBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.pokemonContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.pokemon {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 250px;
+}
+
+.addPokemon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#pokemonName,
+#pokemonType {
+  flex-grow: 1;
+  max-width: 200px;
+}
+
+#addPokemonBtn {
+  flex-grow: 0;
+}
