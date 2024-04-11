@@ -65,6 +65,26 @@ button[onclick="removeLocalStorage()"]:hover,
   justify-content: space-between;
   height: 250px;
 }
+.favouritePokemonContainer {
+  display: grid;
+  grid-template-columns: "auto";
+  gap: 20px;
+  padding: 20px;
+  justify-content: start;
+}
+.favouritePokemon {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 250px;
+  word-wrap: break-word;
+}
 
 .addPokemon {
   display: flex;

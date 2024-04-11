@@ -17,18 +17,11 @@
       <input type="text" id="pokemonType" placeholder="Type av ny Pokemon..." />
       <input type="button" value="Legg til" id="addPokemonBtn" />
     </div>
-    <br />
-    <div>
-      <button class="setPokemon" onclick="setLocalStorage()">
-        Set Items til localStorage
-      </button>
-      <button class="showPokemon" onclick="showLocalStorage()">
-        Vis localStorage
-      </button>
 
-      <button onclick="removeLocalStorage()">Fjern fra localStorage</button>
-    </div>
     <br />
+
+    <h4>Favourite List</h4>
+    <div class="favouritePokemonContainer"></div>
     <div class="filterButtons">
       <h4>Filtrer basert på type</h4>
       <button class="filter-btn" data-type="fire">Fire</button>
@@ -53,14 +46,8 @@
     </div>
     <br />
     <div class="pokemonContainer">
-      <div class="likedPokemon">
-        <div></div>
-      </div>
-      <div id="favouriteContainer"></div>
-
       <!--  -->
       <div id="output"></div>
     </div>
-    <div class="favouritePokemonContainer"></div>
   </body>
 </html>
