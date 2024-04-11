@@ -102,13 +102,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     // Oppdaterer fiendens HP på UI
     enemyCard.dataset.enemyHp = enemyHP;
-    myCard.dataset.myHP = myHP;
+    myCard.dataset.myHp = myHP;
     enemyCard.querySelector(".pokemon-hp").textContent = `HP: ${enemyHP}`;
     myCard.querySelector(".my-hp").textContent = `HP: ${myHP}`;
 
     alert(
-      `You dealt ${playerAttack} damage. Enemy has ${enemyHP} HP left. Enemy attacks back for ${enemyAttack} damage!`
-    );
+      `You dealt ${playerAttack} damage. Enemy has ${enemyHP} HP left. Enemy attacks back for ${enemyAttack} damage! You have ${myHP} HP left.`
     // Her kan du legge til logikk for at fienden angriper tilbake og skade på spillerens Pokémon
   }
 
