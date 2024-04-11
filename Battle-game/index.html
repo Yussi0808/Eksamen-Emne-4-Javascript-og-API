@@ -3,39 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <script defer src="script.js"></script>
-    <title>Pokemon-Battle</title>
+    <title>Pokémon Battle</title>
+    <style>
+      .pokemon-box {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 20px;
+      }
+      .pokemon-card {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+        margin: 10px;
+      }
+      .pokemon-img {
+        width: 100px;
+        height: 100px;
+      }
+      .vstext {
+        font-size: 50px;
+        color: white;
+        background-color: orangered;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 20%;
+        width: 100px;
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
     <div class="big-container">
-      <div
-        class="vstext"
-        style="
-          font-size: 50px;
-          color: white;
-          background-color: orangered;
-          top: 30px;
-          position: absolute;
-          left: 48%;
-          top: 30%;
-          width: 200px;
-          text-align: center;
-        "
-      >
-        VS
-      </div>
-      <div class="pokemon-Box">
-        <!-- dette skal kopieres inn på html markup
-
-        <div class="pokemon-card">
-          <h2 class="pokemon-name">navn</h2>
-          <img src="img/duck.jpeg" class="pokemon-img" alt="" />
-          <h3 class="pokemon-type">type</h3>
-          <button class="pokemonbtn">Choose pokemon</button>
-        </div>
-    -->
-      </div>
+      <div class="vstext">VS</div>
+      <div class="pokemon-box"></div>
     </div>
+    <script src="script.js"></script>
   </body>
 </html>
