@@ -1,99 +1,92 @@
-const badPokemon = {
-  name: ["Rompetroll", "herkules", "middagsfor", "rarunderbitt"],
-  pokemons: ["bad1", "bad2", "bad3", "bad4"],
-  type: ["stein", "jord", "vann", "electric"],
-  HP: 300,
-  skade: 35,
-};
+document.addEventListener("DOMContentLoaded", () => {
+  const pokemonBox = document.querySelector(".pokemon-box");
+  const API_URL = `https://pokeapi.co/api/v2/pokemon?offset=${
+    Math.floor(Math.random() * 200) + 1
+  }&limit=5`;
 
-const pokemonBox = document.querySelector(".pokemon-Box");
-const pokemonName = document.querySelector(".pokemon-name");
-const pokemonType = document.querySelector(".pokemon-type");
-const pokemonImg = document.querySelector(".pokemon-img");
+  const badPokemon = {
+    name: ["Rompetroll", "Herkules", "Middagsfor", "Rarunderbitt"],
+    type: ["stein", "jord", "vann", "elektrisk"],
+    img: ["img/bad1.jpeg", "img/bad2.jpeg", "img/bad3.jpeg", "img/bad4.jpeg"],
+    HP: [300, 250, 275, 285],
+  };
 
-// api fetch
+  async function fetchPokemonData() {
+    try {
+      const response = await fetch(API_URL);
+      const data = await response.json();
 
-const randomNum = Math.floor(Math.random() * 200) + 1;
+      for (let pokemon of data.results) {
+        const pokemonDetailsResponse = await fetch(pokemon.url);
+        const pokemonDetails = await pokemonDetailsResponse.json();
 
-const API_URL = `https://pokeapi.co/api/v2/pokemon?offset=${randomNum}&limit=5`;
-
-// pokemon card
-const pokemonCards = [];
-const myFivedPokemon = [];
-
-const fetchPokemonData = async function () {
-  try {
-    // pokemon Core API
-    const response = await fetch(API_URL);
-    const pokemonData = await response.json();
-    const results = await pokemonData.results;
-
-    pokemonCards.push(results);
-
-    // pokemon Info
-    const pokemons = results.map(async (pokemon) => {
-      const pokemonResponse = await fetch(pokemon.url);
-      const pokemonDetails = await pokemonResponse.json();
-
-      console.log(pokemonDetails);
-
-      const markup = `<div class="pokemon-card">
-      <h2 class="pokemon-name">${pokemonDetails.name}</h2>
-      <img src="${pokemonDetails.sprites.front_default}" class="pokemon-img" alt="" />
-      <h3 class="pokemon-type">${pokemonDetails.types[0].type.name}</h3>
-      <button class="pokemonbtn" >Choose pokemon</button>
-    </div>`;
-
-      pokemonBox.insertAdjacentHTML("afterbegin", markup);
-
-      // velg knapper
-      function fiveChoosenPokemon() {
-        const pokemonBtn = document.querySelector(".pokemonbtn");
-
-        myFivedPokemon.push(pokemonBtn);
-
-        pokemonBtn.addEventListener("click", (e) => {
-          // behold card
-          const pokemonCard = e.target.parentNode;
-
-          // hide pokemons cards box
-          pokemonBox.innerHTML = "";
-
-          // show chosen one
-          pokemonBox.appendChild(pokemonCard);
-          // vise side bilde og flytt til siden
-          console.log(pokemonCard);
-          document.querySelector(".pokemon-img").style = "scale: 1.5";
-
-          // add vs bokstaver
-
-          const vsText = ``;
-
-          pokemonBox.insertAdjacentHTML("afterbegin", vsText);
-
-          // add monster
-
-          const randomNum = Math.floor(Math.random() * 4) + 1;
-
-          const markup2 = `<div class="pokemon-card">
-          <h2 class="pokemon-name">${badPokemon.name[randomNum]}</h2>
-          <img src="img/bad${randomNum}.jpeg" class="pokemon-img" alt="" />
-          <h3 class="pokemon-type">${badPokemon.type[randomNum]}</h3>
-          <button class="pokemonbtn" >Choose pokemon</button>
-        </div>`;
-
-          pokemonBox.insertAdjacentHTML("afterbegin", markup2);
-        });
-
-        //render handler
+        const markup = `
+                    <div class="pokemon-card">
+                        <h2 class="pokemon-name">${pokemonDetails.name}</h2>
+                        <img src="${
+                          pokemonDetails.sprites.front_default
+                        }" class="pokemon-img" alt="${pokemonDetails.name}" />
+                        <h3 class="pokemon-type">${pokemonDetails.types
+                          .map((type) => type.type.name)
+                          .join(", ")}</h3>
+                        <button class="pokemonbtn">Choose Pokémon</button>
+                    </div>`;
+        pokemonBox.insertAdjacentHTML("beforeend", markup);
       }
+    } catch (error) {
+      console.error("There was an error fetching the Pokémon data:", error);
+    }
+  }
 
-      fiveChoosenPokemon();
+  function addEventListeners() {
+    pokemonBox.addEventListener("click", function (event) {
+      if (!event.target.matches(".pokemonbtn")) return;
+
+      const pokemonCard = event.target.closest(".pokemon-card");
+      pokemonBox.innerHTML = ""; // Tømmer boksen
+      pokemonBox.appendChild(pokemonCard);
+
+      const randomIndex = Math.floor(Math.random() * badPokemon.name.length);
+      const enemyMarkup = `
+                <div class="pokemon-card" data-enemy-hp="${badPokemon.HP[randomIndex]}">
+                    <h2 class="pokemon-name">${badPokemon.name[randomIndex]}</h2>
+                    <img src="${badPokemon.img[randomIndex]}" class="pokemon-img" alt="" />
+                    <h3 class="pokemon-type">${badPokemon.type[randomIndex]}</h3>
+                    <p class="pokemon-hp">HP: ${badPokemon.HP[randomIndex]}</p>
+                </div>`;
+      pokemonBox.insertAdjacentHTML("beforeend", enemyMarkup);
+
+      // Legg til en kamp-knapp
+      const fightButton = document.createElement("button");
+      fightButton.textContent = "Fight!";
+      fightButton.onclick = startBattle;
+      pokemonBox.appendChild(fightButton);
     });
+  }
 
-    // add event handlers
-  } catch (err) {}
-};
+  function startBattle() {
+    const enemyCard = document.querySelector(".pokemon-card[data-enemy-hp]");
+    let enemyHP = parseInt(enemyCard.dataset.enemyHp);
+    const playerAttack = Math.floor(Math.random() * 50) + 10; // Tilfeldig angrepstyrke for spilleren
+    const enemyAttack = Math.floor(Math.random() * 50) + 10; // Tilfeldig angrepstyrke for fienden
 
-// call data
-fetchPokemonData();
+    // Simulerer skade
+    enemyHP -= playerAttack;
+    if (enemyHP <= 0) {
+      alert("You won!");
+      // Resetter spillet eller gjør andre ting etter seieren
+      return;
+    }
+
+    // Oppdaterer fiendens HP på UI
+    enemyCard.dataset.enemyHp = enemyHP;
+    enemyCard.querySelector(".pokemon-hp").textContent = `HP: ${enemyHP}`;
+
+    alert(
+      `You dealt ${playerAttack} damage. Enemy has ${enemyHP} HP left. Enemy attacks back for ${enemyAttack} damage!`
+    );
+    // Her kan du legge til logikk for at fienden angriper tilbake og skade på spillerens Pokémon
+  }
+
+  fetchPokemonData().then(addEventListeners);
+});
