@@ -63,7 +63,7 @@ button[onclick="removeLocalStorage()"]:hover,
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 250px;
+  height: 300px;
 }
 .favouritePokemonContainer {
   display: grid;
