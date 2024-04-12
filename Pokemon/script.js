@@ -311,7 +311,7 @@ function removeFavouriteButtonEventListener(card, event, pokemonDetails) {
       "Are you sure you want to remove?, this will also remove from localStorage"
     );
     if (confimation === true) {
-      favouriteList.splice(pokemonDetails);
+      favouriteList.filter((pokemon) => pokemon.name !== pokemonDetails.name);
       card.textContent = pokemonDetails.name + " is removed from your pokemons";
 
       // const localStoragePokemons = JSON.parse(
