@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       name: pokemonName,
       types: [{ type: { name: pokemonType } }],
       sprites: {
-        front_default: "./pics/poke1.png",
+        front_default: "./img/poke1.png",
       }, // Placeholder image URL
     };
 
