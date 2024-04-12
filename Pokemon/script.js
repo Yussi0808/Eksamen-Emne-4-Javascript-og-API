@@ -190,8 +190,7 @@ function filterPokemonByType(pokemonData, type) {
     return pokemonData;
   } else {
     return pokemonData.filter(
-      (pokemon) =>
-        pokemon.types && pokemon.types.some((t) => t.type.name === type)
+      (pokemon) => pokemon.types && pokemon.types[0].type.name === type
     );
   }
 }

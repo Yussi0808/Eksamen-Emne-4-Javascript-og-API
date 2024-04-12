@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const badPokemon = [];
 
   async function fetchPokemonData() {
+    // async funksjon som henter pokemon fra API-et.
     try {
       const response = await fetch(API_URL);
       const data = await response.json();
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const pokemonDetailsResponse = await fetch(pokemon.url);
         const pokemonDetails = await pokemonDetailsResponse.json();
 
-        const markup = `
+        const markup = ` 
                     <div class="pokemon-card" data-my-hp="${
                       pokemonDetails.stats[0].base_stat
                     }">
@@ -31,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                            }</p>
                         <button class="pokemonbtn">Choose Pokémon</button>
                     </div>`;
-        pokemonBox.insertAdjacentHTML("beforeend", markup);
+        pokemonBox.insertAdjacentHTML("beforeend", markup); // Kilde: MDN: Dette er en metode som finnes på DOM-elementer, og den lar deg legge til ny HTML-markup relativt til det valgte elementet.
       }
     } catch (error) {
       console.error("There was an error fetching the Pokémon data:", error);
@@ -44,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     pokemonBox.addEventListener("click", async function (event) {
       if (!event.target.matches(".pokemonbtn")) return;
 
-      const pokemonCard = event.target.closest(".pokemon-card");
+      const pokemonCard = event.target.closest(".pokemon-card"); // Kilde MDN: søker etter det nærmeste foreldreelementet med klasse"pokemon-card" Kilde:
       pokemonBox.innerHTML = ""; // Tømmer boksen
       pokemonBox.appendChild(pokemonCard);
 
@@ -109,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
     alert(
       `You dealt ${playerAttack} damage. Enemy has ${enemyHP} HP left. Enemy attacks back for ${enemyAttack} damage! You have ${myHP} HP left.`
     );
-    // Her kan du legge til logikk for at fienden angriper tilbake og skade på spillerens Pokémon
+    // Her var målet å legge til logikk for at fienden angriper tilbake og gjør skade på spillerens Pokémon
   }
 
   fetchPokemonData().then(addEventListeners);
