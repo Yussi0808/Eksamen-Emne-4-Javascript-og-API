@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const pokemonDetails = await pokemonDetailsResponse.json();
 
         const markup = `
-                    <div class="pokemon-card" data-my-hp="${   
+                    <div class="pokemon-card" data-my-hp="${
                       pokemonDetails.stats[0].base_stat
                     }">
                         <h2 class="pokemon-name">${pokemonDetails.name}</h2>
@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     alert(
       `You dealt ${playerAttack} damage. Enemy has ${enemyHP} HP left. Enemy attacks back for ${enemyAttack} damage! You have ${myHP} HP left.`
+    );
     // Her kan du legge til logikk for at fienden angriper tilbake og skade på spillerens Pokémon
   }
 
