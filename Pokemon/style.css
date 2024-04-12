@@ -82,7 +82,7 @@ button[onclick="removeLocalStorage()"]:hover,
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 250px;
+  height: 300px;
   word-wrap: break-word;
 }
 
